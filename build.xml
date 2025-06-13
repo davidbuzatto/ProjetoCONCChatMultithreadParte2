@@ -70,4 +70,36 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <property name="gramatica" value="Mensagens"/>
+    <property name="pacote" value="parser"/>
+    <property name="saida" value="parser"/>
+    
+    <target name="-pre-compile">
+        
+        <property name="caminhoCompleto" value="${src.gramatica.dir}/${gramatica}.g4"/>
+        
+        <echo level="info">********** ANTLR: Gerando analisadores... **********</echo>
+        
+        <java classpath="${libraries.dir}/ANTLR-4.13.2/antlr-4.13.2-complete.jar"
+              fork="true"
+              classname="org.antlr.v4.Tool"
+              maxmemory="500M">
+            <arg value="${caminhoCompleto}"/>
+            <arg value="-package"/>
+            <arg value="${pacote}"/>
+            <arg value="-o"/>
+            <arg value="${src.dir}/${saida}"/>
+            <arg value="-Xexact-output-dir"/>
+            <arg value="-visitor"/>
+        </java>
+        
+        <echo level="info">********** ANTLR: Analisadores gerados!   **********</echo>
+        
+    </target>
+    
+    <target name="-post-compile">
+        <delete file="${build.classes.dir}/${gramatica}.g4"/>
+    </target>
+    
 </project>

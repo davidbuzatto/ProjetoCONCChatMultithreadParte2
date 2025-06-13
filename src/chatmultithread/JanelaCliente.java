@@ -6,7 +6,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.text.ParseException;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import parser.MensagensLexer;
+import parser.MensagensParser;
+import utils.Utils;
+import visitor.MensagensVisitorImpl;
 
 /**
  *
@@ -56,11 +65,24 @@ public class JanelaCliente extends javax.swing.JFrame {
                 
                 while ( conectado ) {
                     try {
+                        
                         while ( reader.ready() ) {
-                            String dados = reader.readLine() + "\n";
-                            areaMensagens.append( dados );
+                            
+                            String dados = reader.readLine();
+                            
+                            try { 
+                                analisarMensagem( dados, areaMensagens );
+                            } catch ( ParseException exc ) {
+                                Utils.adicionarTextoNaoFormatado( dados + "\n", areaMensagens );
+                                exc.printStackTrace();
+                            }
+                            
+                            Utils.adicionarTextoNaoFormatado( "\n", areaMensagens );
+                            
                         }
+                        
                         Thread.sleep( 1000 );
+                        
                     } catch ( InterruptedException | IOException exc ) {
                         exc.printStackTrace();
                     }
@@ -68,6 +90,19 @@ public class JanelaCliente extends javax.swing.JFrame {
                 
             }).start();
         }
+        
+    }
+    
+    public static void analisarMensagem( String mensagem, JTextPane textPane ) throws ParseException {
+        
+        MensagensLexer lexer = new MensagensLexer(
+                CharStreams.fromString( mensagem ) );
+        CommonTokenStream tokens = new CommonTokenStream( lexer );
+        MensagensParser parser = new MensagensParser( tokens );
+        ParseTree tree = parser.inicio();
+        
+        MensagensVisitorImpl visitor = new MensagensVisitorImpl( textPane );
+        visitor.visit( tree );
         
     }
     
@@ -83,8 +118,8 @@ public class JanelaCliente extends javax.swing.JFrame {
         lblNome = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         btnConectar = new javax.swing.JButton();
-        scrollPaneMensagens = new javax.swing.JScrollPane();
-        areaMensagens = new javax.swing.JTextArea();
+        scrollAreaMensagens = new javax.swing.JScrollPane();
+        areaMensagens = new javax.swing.JTextPane();
         lblMensagem = new javax.swing.JLabel();
         txtMensagem = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
@@ -105,11 +140,8 @@ public class JanelaCliente extends javax.swing.JFrame {
             }
         });
 
-        areaMensagens.setEditable(false);
-        areaMensagens.setColumns(20);
         areaMensagens.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        areaMensagens.setRows(5);
-        scrollPaneMensagens.setViewportView(areaMensagens);
+        scrollAreaMensagens.setViewportView(areaMensagens);
 
         lblMensagem.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblMensagem.setText("Mensagem:");
@@ -131,11 +163,11 @@ public class JanelaCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPaneMensagens, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                    .addComponent(scrollAreaMensagens)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblMensagem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMensagem)
+                        .addComponent(txtMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEnviar))
                     .addGroup(layout.createSequentialGroup()
@@ -155,7 +187,7 @@ public class JanelaCliente extends javax.swing.JFrame {
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConectar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPaneMensagens, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                .addComponent(scrollAreaMensagens, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,12 +230,12 @@ public class JanelaCliente extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea areaMensagens;
+    private javax.swing.JTextPane areaMensagens;
     private javax.swing.JButton btnConectar;
     private javax.swing.JButton btnEnviar;
     private javax.swing.JLabel lblMensagem;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JScrollPane scrollPaneMensagens;
+    private javax.swing.JScrollPane scrollAreaMensagens;
     private javax.swing.JTextField txtMensagem;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
