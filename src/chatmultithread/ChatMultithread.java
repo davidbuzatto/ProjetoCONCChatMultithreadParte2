@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import listener.MensagensListenerImpl;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.MensagensLexer;
 import parser.MensagensParser;
 import utils.Utils;
@@ -19,8 +21,8 @@ import visitor.MensagensVisitorImpl;
 public class ChatMultithread {
     
     public static void main( String[] args ) throws Exception {
-        testeParser();
-        //testeChat();
+        //testeParser( TipoProcessamento.VISITOR );
+        testeChat();
     }
     
     private static void testeChat() {
@@ -41,7 +43,7 @@ public class ChatMultithread {
         
     }
     
-    private static void testeParser() {
+    private static void testeParser( TipoProcessamento tipo ) {
         
         //String mensagem = "teste";
         //String mensagem = "[b][b]teste[/b][/b]";
@@ -49,15 +51,15 @@ public class ChatMultithread {
         //String mensagem = "[i][b]teste[/b][/i]";
         //String mensagem = "a[i]a[b]teste[/b]a[/i]a";
         //String mensagem = "[c #008888]teste[/c]";
-        String mensagem = "aa [i] aa [b] aa [c #0099CC]teste[/c] aa [/b] aa [/i] aa";
-        
+        //String mensagem = "aa [i] aa [b] aa [c #0099CC]teste[/c] aa [/b] aa [/i] aa";
+        String mensagem = "teste [b]te[i]s[c #009900]te t[c #000099]est[/c]e[/c][/i][/b] teste";
         
         MensagensLexer lexer = new MensagensLexer( CharStreams.fromString( mensagem ) );
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         MensagensParser parser = new MensagensParser( tokens );
         ParseTree tree = parser.inicio();
         
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame( "Teste Parser" );
         frame.setSize( 500, 500 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocationRelativeTo( null );
@@ -67,8 +69,13 @@ public class ChatMultithread {
         
         frame.add( new JScrollPane( textPane ), BorderLayout.CENTER );
         
-        MensagensVisitorImpl visitor = new MensagensVisitorImpl( textPane );
-        visitor.visit( tree );
+        if ( tipo == TipoProcessamento.LISTENER ) {
+            ParseTreeWalker.DEFAULT.walk( new MensagensListenerImpl( textPane ), tree );
+        } else if ( tipo == TipoProcessamento.VISITOR ) {
+            MensagensVisitorImpl visitor = new MensagensVisitorImpl( textPane );
+            visitor.visit( tree );
+        }
+        
         frame.setVisible( true );
         
         Utils.mostrarDadosAnalise( null, parser, tree, true );

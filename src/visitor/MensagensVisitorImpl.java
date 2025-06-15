@@ -1,6 +1,8 @@
 package visitor;
 
 import java.awt.Color;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -9,25 +11,24 @@ import parser.MensagensParser;
 import utils.Utils;
 
 /**
- *
+ * Exemplo de visitor.
+ * 
  * @author Prof. Dr. David Buzatto
  */
 public class MensagensVisitorImpl extends MensagensBaseVisitor<Void> {
-
-    private JTextPane textPane;
     
-    private boolean negritoAtivado;
-    private boolean italicoAtivado;
-    private Color corAtual;
+    private JTextPane textPane;
     private SimpleAttributeSet attrSet;
     
+    private int contNegrito;
+    private int contItalico;
+    private Deque<Color> pilhaCor;
+    
     public MensagensVisitorImpl( JTextPane textPane ) {
-        super();
         this.textPane = textPane;
-        this.negritoAtivado = false;
-        this.italicoAtivado = false;
-        this.corAtual = Color.BLACK;
         this.attrSet = new SimpleAttributeSet();
+        this.pilhaCor = new ArrayDeque<>();
+        this.pilhaCor.push( Color.BLACK );
     }
     
     @Override
@@ -38,25 +39,25 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<Void> {
 
     @Override
     public Void visitMensagemNegrito( MensagensParser.MensagemNegritoContext ctx ) {
-        negritoAtivado = true;
+        contNegrito++;
         visit( ctx.mensagem() );
-        negritoAtivado = false;
+        contNegrito--;
         return null;
     }
     
     @Override
     public Void visitMensagemItalico( MensagensParser.MensagemItalicoContext ctx ) {
-        italicoAtivado = true;
+        contItalico++;
         visit( ctx.mensagem() );
-        italicoAtivado = false;
+        contItalico--;
         return null;
     }
 
     @Override
     public Void visitMensagemCor( MensagensParser.MensagemCorContext ctx ) {
-        corAtual = Utils.processarCor( ctx.COR_ESQ().toString() );
+        pilhaCor.push( Utils.processarCor( ctx.COR_ESQ().toString() ) );
         visit( ctx.mensagem() );
-        corAtual = Color.BLACK;
+        pilhaCor.pop();
         return null;
     }
 
@@ -74,9 +75,9 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<Void> {
     }
     
     private void atualizarAttributeSet() {
-        StyleConstants.setBold( attrSet, negritoAtivado );
-        StyleConstants.setItalic( attrSet, italicoAtivado );
-        StyleConstants.setForeground( attrSet, corAtual );
+        StyleConstants.setBold( attrSet, contNegrito != 0 );
+        StyleConstants.setItalic( attrSet, contItalico != 0 );
+        StyleConstants.setForeground( attrSet, pilhaCor.peek() );
     }
     
 }

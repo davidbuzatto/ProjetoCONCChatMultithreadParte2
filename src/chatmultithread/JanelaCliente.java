@@ -9,9 +9,11 @@ import java.net.Socket;
 import java.text.ParseException;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
+import listener.MensagensListenerImpl;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.MensagensLexer;
 import parser.MensagensParser;
 import utils.Utils;
@@ -71,7 +73,7 @@ public class JanelaCliente extends javax.swing.JFrame {
                             String dados = reader.readLine();
                             
                             try { 
-                                analisarMensagem( dados, areaMensagens );
+                                analisarMensagem( dados, areaMensagens, TipoProcessamento.VISITOR );
                             } catch ( ParseException exc ) {
                                 Utils.adicionarTextoNaoFormatado( dados + "\n", areaMensagens );
                                 exc.printStackTrace();
@@ -93,7 +95,7 @@ public class JanelaCliente extends javax.swing.JFrame {
         
     }
     
-    public static void analisarMensagem( String mensagem, JTextPane textPane ) throws ParseException {
+    public static void analisarMensagem( String mensagem, JTextPane textPane, TipoProcessamento tipo ) throws ParseException {
         
         MensagensLexer lexer = new MensagensLexer(
                 CharStreams.fromString( mensagem ) );
@@ -101,8 +103,12 @@ public class JanelaCliente extends javax.swing.JFrame {
         MensagensParser parser = new MensagensParser( tokens );
         ParseTree tree = parser.inicio();
         
-        MensagensVisitorImpl visitor = new MensagensVisitorImpl( textPane );
-        visitor.visit( tree );
+        if ( tipo == TipoProcessamento.LISTENER ) {
+            ParseTreeWalker.DEFAULT.walk( new MensagensListenerImpl( textPane ), tree );
+        } else if ( tipo == TipoProcessamento.VISITOR ) {
+            MensagensVisitorImpl visitor = new MensagensVisitorImpl( textPane );
+            visitor.visit( tree );
+        }
         
     }
     
@@ -140,6 +146,7 @@ public class JanelaCliente extends javax.swing.JFrame {
             }
         });
 
+        areaMensagens.setEditable(false);
         areaMensagens.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         scrollAreaMensagens.setViewportView(areaMensagens);
 

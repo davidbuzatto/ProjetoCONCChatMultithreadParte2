@@ -18,7 +18,7 @@ public class MensagensParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		NEG_ESQ=1, NEG_DIR=2, ITA_ESQ=3, ITA_DIR=4, COR_ESQ=5, COR_DIR=6, STRING=7, 
-		CHAR=8, NUM_HEX=9, DIG_HEX=10, WS=11;
+		CHAR=8, NUM_HEX=9, DIG_HEX=10;
 	public static final int
 		RULE_inicio = 0, RULE_mensagem = 1, RULE_texto = 2;
 	private static String[] makeRuleNames() {
@@ -37,7 +37,7 @@ public class MensagensParser extends Parser {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, "NEG_ESQ", "NEG_DIR", "ITA_ESQ", "ITA_DIR", "COR_ESQ", "COR_DIR", 
-			"STRING", "CHAR", "NUM_HEX", "DIG_HEX", "WS"
+			"STRING", "CHAR", "NUM_HEX", "DIG_HEX"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -371,7 +371,7 @@ public class MensagensParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u000b!\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\n!\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
