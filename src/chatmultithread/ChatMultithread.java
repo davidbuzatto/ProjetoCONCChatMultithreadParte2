@@ -20,7 +20,7 @@ public class ChatMultithread {
     
     public static void main( String[] args ) throws Exception {
         testeParser();
-        testeChat();
+        //testeChat();
     }
     
     private static void testeChat() {
@@ -48,23 +48,24 @@ public class ChatMultithread {
         //String mensagem = "[i][i]teste[/i][/i]";
         //String mensagem = "[i][b]teste[/b][/i]";
         //String mensagem = "a[i]a[b]teste[/b]a[/i]a";
-        String mensagem = "a[i]a [b]t e[c #0099CC]teste[/c]e[/b]a[/i]a";
-        //String mensagem = "[c #001144]teste[/c]";
+        String mensagem = "[c #008888]teste[/c]";
+        //String mensagem = "aa [i] aa [b] aa [c #0099CC]teste[/c] aa [/b] aa [/i] aa";
         
-        MensagensLexer lexer = new MensagensLexer(
-                CharStreams.fromString( mensagem ) );
+        
+        MensagensLexer lexer = new MensagensLexer( CharStreams.fromString( mensagem ) );
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         MensagensParser parser = new MensagensParser( tokens );
         ParseTree tree = parser.inicio();
         
         JFrame frame = new JFrame();
+        frame.setSize( 500, 500 );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setLocationRelativeTo( null );
+        
         JTextPane textPane = new JTextPane();
         textPane.setFont( textPane.getFont().deriveFont( 40.0f ) );
         
         frame.add( new JScrollPane( textPane ), BorderLayout.CENTER );
-        frame.setSize( 500, 500 );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setLocationRelativeTo( null );
         
         MensagensVisitorImpl visitor = new MensagensVisitorImpl( textPane );
         visitor.visit( tree );

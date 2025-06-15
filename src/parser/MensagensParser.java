@@ -17,8 +17,8 @@ public class MensagensParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		BOLD_OPEN=1, BOLD_CLOSE=2, ITALIC_OPEN=3, ITALIC_CLOSE=4, COLOR_OPEN=5, 
-		COLOR_CLOSE=6, STRING=7, HEX_NUMBER=8, HEX_DIGIT=9;
+		NEG_ESQ=1, NEG_CLOSE=2, ITA_ESQ=3, ITA_CLOSE=4, COR_ESQ=5, COR_CLOSE=6, 
+		STRING=7, CHAR=8, NUM_HEX=9, DIG_HEX=10;
 	public static final int
 		RULE_inicio = 0, RULE_mensagem = 1, RULE_texto = 2;
 	private static String[] makeRuleNames() {
@@ -36,8 +36,8 @@ public class MensagensParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "BOLD_OPEN", "BOLD_CLOSE", "ITALIC_OPEN", "ITALIC_CLOSE", "COLOR_OPEN", 
-			"COLOR_CLOSE", "STRING", "HEX_NUMBER", "HEX_DIGIT"
+			null, "NEG_ESQ", "NEG_CLOSE", "ITA_ESQ", "ITA_CLOSE", "COR_ESQ", "COR_CLOSE", 
+			"STRING", "CHAR", "NUM_HEX", "DIG_HEX"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -153,11 +153,11 @@ public class MensagensParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class MensagemCorContext extends MensagemContext {
-		public TerminalNode COLOR_OPEN() { return getToken(MensagensParser.COLOR_OPEN, 0); }
+		public TerminalNode COR_ESQ() { return getToken(MensagensParser.COR_ESQ, 0); }
 		public MensagemContext mensagem() {
 			return getRuleContext(MensagemContext.class,0);
 		}
-		public TerminalNode COLOR_CLOSE() { return getToken(MensagensParser.COLOR_CLOSE, 0); }
+		public TerminalNode COR_CLOSE() { return getToken(MensagensParser.COR_CLOSE, 0); }
 		public MensagemCorContext(MensagemContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -175,11 +175,11 @@ public class MensagensParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class MensagemItalicoContext extends MensagemContext {
-		public TerminalNode ITALIC_OPEN() { return getToken(MensagensParser.ITALIC_OPEN, 0); }
+		public TerminalNode ITA_ESQ() { return getToken(MensagensParser.ITA_ESQ, 0); }
 		public MensagemContext mensagem() {
 			return getRuleContext(MensagemContext.class,0);
 		}
-		public TerminalNode ITALIC_CLOSE() { return getToken(MensagensParser.ITALIC_CLOSE, 0); }
+		public TerminalNode ITA_CLOSE() { return getToken(MensagensParser.ITA_CLOSE, 0); }
 		public MensagemItalicoContext(MensagemContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -223,11 +223,11 @@ public class MensagensParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class MensagemNegritoContext extends MensagemContext {
-		public TerminalNode BOLD_OPEN() { return getToken(MensagensParser.BOLD_OPEN, 0); }
+		public TerminalNode NEG_ESQ() { return getToken(MensagensParser.NEG_ESQ, 0); }
 		public MensagemContext mensagem() {
 			return getRuleContext(MensagemContext.class,0);
 		}
-		public TerminalNode BOLD_CLOSE() { return getToken(MensagensParser.BOLD_CLOSE, 0); }
+		public TerminalNode NEG_CLOSE() { return getToken(MensagensParser.NEG_CLOSE, 0); }
 		public MensagemNegritoContext(MensagemContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -252,40 +252,40 @@ public class MensagensParser extends Parser {
 			setState(28);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case BOLD_OPEN:
+			case NEG_ESQ:
 				_localctx = new MensagemNegritoContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(9);
-				match(BOLD_OPEN);
+				match(NEG_ESQ);
 				setState(10);
 				mensagem();
 				setState(11);
-				match(BOLD_CLOSE);
+				match(NEG_CLOSE);
 				}
 				break;
-			case ITALIC_OPEN:
+			case ITA_ESQ:
 				_localctx = new MensagemItalicoContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(13);
-				match(ITALIC_OPEN);
+				match(ITA_ESQ);
 				setState(14);
 				mensagem();
 				setState(15);
-				match(ITALIC_CLOSE);
+				match(ITA_CLOSE);
 				}
 				break;
-			case COLOR_OPEN:
+			case COR_ESQ:
 				_localctx = new MensagemCorContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(17);
-				match(COLOR_OPEN);
+				match(COR_ESQ);
 				setState(18);
 				mensagem();
 				setState(19);
-				match(COLOR_CLOSE);
+				match(COR_CLOSE);
 				}
 				break;
 			case STRING:
@@ -371,7 +371,7 @@ public class MensagensParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\t!\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\n!\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+

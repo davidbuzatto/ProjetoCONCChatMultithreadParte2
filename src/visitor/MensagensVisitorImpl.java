@@ -56,7 +56,7 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<String> {
 
     @Override
     public String visitMensagemCor( MensagensParser.MensagemCorContext ctx ) {
-        corAtual = Utils.processarCor( ctx.COLOR_OPEN().toString() );
+        corAtual = Utils.processarCor( ctx.COR_ESQ().toString() );
         visit( ctx.getChild( 1 ) );
         corAtual = Color.BLACK;
         return "";

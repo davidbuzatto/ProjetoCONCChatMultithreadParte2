@@ -5,30 +5,27 @@
  */
 grammar Mensagens;
 
-// regras do parser
-inicio    : mensagem EOF;
+// regras do analisador sintático
+inicio   : mensagem EOF;
 
-mensagem  : BOLD_OPEN mensagem BOLD_CLOSE       # mensagemNegrito
-          | ITALIC_OPEN mensagem ITALIC_CLOSE   # mensagemItalico
-          | COLOR_OPEN mensagem COLOR_CLOSE     # mensagemCor
-          | texto mensagem*                     # partes
-          ;
+mensagem : NEG_ESQ mensagem NEG_CLOSE # mensagemNegrito
+         | ITA_ESQ mensagem ITA_CLOSE # mensagemItalico
+         | COR_ESQ mensagem COR_CLOSE # mensagemCor
+         | texto mensagem*            # partes
+         ;
 
-texto     : STRING ;
+texto    : STRING ;
 
-// regras do lexer
-BOLD_OPEN    : '[b]'  ;
-BOLD_CLOSE   : '[/b]' ;
-ITALIC_OPEN  : '[i]'  ;
-ITALIC_CLOSE : '[/i]' ;
-COLOR_OPEN   : '[c #' HEX_NUMBER ']';
-COLOR_CLOSE  : '[/c]' ;
+// regras do analisador léxico
+NEG_ESQ   : '[b]'  ;
+NEG_CLOSE : '[/b]' ;
+ITA_ESQ   : '[i]'  ;
+ITA_CLOSE : '[/i]' ;
+COR_ESQ   : '[c ' NUM_HEX ']';
+COR_CLOSE : '[/c]' ;
 
-STRING : STRING_CHAR+ ;
-fragment STRING_CHAR : ~["\\\r\n\][] ; // fragmentos não entram na estrutura da árvore
+STRING : CHAR+ ;
+CHAR   : ~["\\\r\n\][] ; // qualquer coisa menos ", \, \r, \n, ] e [
 
-HEX_NUMBER : HEX_DIGIT+ ;
-HEX_DIGIT  : [0-9A-Fa-f] ;
-
-// ignore espaço em branco
-//WS  : [ \t\r\n]+ -> skip ;
+NUM_HEX : '#' DIG_HEX DIG_HEX DIG_HEX DIG_HEX DIG_HEX DIG_HEX;
+DIG_HEX : [0-9A-Fa-f] ;
