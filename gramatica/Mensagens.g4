@@ -8,10 +8,10 @@ grammar Mensagens;
 // regras do analisador sintático
 inicio   : mensagem EOF;
 
-mensagem : NEG_ESQ mensagem NEG_DIR # mensagemNegrito
-         | ITA_ESQ mensagem ITA_DIR # mensagemItalico
-         | COR_ESQ mensagem COR_DIR # mensagemCor
-         | texto mensagem*            # partes
+mensagem : NEG_ESQ  mensagem  NEG_DIR   # mensagemNegrito
+         | ITA_ESQ  mensagem  ITA_DIR   # mensagemItalico
+         | COR_ESQ  mensagem  COR_DIR   # mensagemCor
+         | texto    mensagem*           # partes
          ;
 
 texto    : STRING ;
