@@ -19,6 +19,11 @@ import visitor.MensagensVisitorImpl;
 public class ChatMultithread {
     
     public static void main( String[] args ) throws Exception {
+        testeParser();
+        testeChat();
+    }
+    
+    private static void testeChat() {
         
         int porta = 8080;
         String host = "localhost";
@@ -34,12 +39,9 @@ public class ChatMultithread {
         c2.setVisible( true );
         c2.setLocation( s.getLocation().x + s.getBounds().width, c2.getLocation().y );
         
-        //testParser();
-        
-        
     }
     
-    private static void testParser() {
+    private static void testeParser() {
         
         //String mensagem = "teste";
         //String mensagem = "[b][b]teste[/b][/b]";
