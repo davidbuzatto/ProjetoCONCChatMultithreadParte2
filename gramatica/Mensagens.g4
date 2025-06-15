@@ -31,4 +31,4 @@ NUM_HEX : '#' DIG_HEX DIG_HEX DIG_HEX DIG_HEX DIG_HEX DIG_HEX;
 DIG_HEX : [0-9A-Fa-f] ;
 
 // ignora espaços em branco
-WS  : [ \t\r\n]+ -> skip ;
+//WS  : [ \t\r\n]+ -> skip ;
