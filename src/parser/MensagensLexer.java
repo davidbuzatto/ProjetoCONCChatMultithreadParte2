@@ -17,8 +17,8 @@ public class MensagensLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		NEG_ESQ=1, NEG_CLOSE=2, ITA_ESQ=3, ITA_CLOSE=4, COR_ESQ=5, COR_CLOSE=6, 
-		STRING=7, CHAR=8, NUM_HEX=9, DIG_HEX=10;
+		NEG_ESQ=1, NEG_DIR=2, ITA_ESQ=3, ITA_DIR=4, COR_ESQ=5, COR_DIR=6, STRING=7, 
+		CHAR=8, NUM_HEX=9, DIG_HEX=10;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -29,8 +29,8 @@ public class MensagensLexer extends Lexer {
 
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"NEG_ESQ", "NEG_CLOSE", "ITA_ESQ", "ITA_CLOSE", "COR_ESQ", "COR_CLOSE", 
-			"STRING", "CHAR", "NUM_HEX", "DIG_HEX"
+			"NEG_ESQ", "NEG_DIR", "ITA_ESQ", "ITA_DIR", "COR_ESQ", "COR_DIR", "STRING", 
+			"CHAR", "NUM_HEX", "DIG_HEX"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -43,7 +43,7 @@ public class MensagensLexer extends Lexer {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "NEG_ESQ", "NEG_CLOSE", "ITA_ESQ", "ITA_CLOSE", "COR_ESQ", "COR_CLOSE", 
+			null, "NEG_ESQ", "NEG_DIR", "ITA_ESQ", "ITA_DIR", "COR_ESQ", "COR_DIR", 
 			"STRING", "CHAR", "NUM_HEX", "DIG_HEX"
 		};
 	}

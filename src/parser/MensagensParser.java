@@ -17,8 +17,8 @@ public class MensagensParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		NEG_ESQ=1, NEG_CLOSE=2, ITA_ESQ=3, ITA_CLOSE=4, COR_ESQ=5, COR_CLOSE=6, 
-		STRING=7, CHAR=8, NUM_HEX=9, DIG_HEX=10;
+		NEG_ESQ=1, NEG_DIR=2, ITA_ESQ=3, ITA_DIR=4, COR_ESQ=5, COR_DIR=6, STRING=7, 
+		CHAR=8, NUM_HEX=9, DIG_HEX=10;
 	public static final int
 		RULE_inicio = 0, RULE_mensagem = 1, RULE_texto = 2;
 	private static String[] makeRuleNames() {
@@ -36,7 +36,7 @@ public class MensagensParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "NEG_ESQ", "NEG_CLOSE", "ITA_ESQ", "ITA_CLOSE", "COR_ESQ", "COR_CLOSE", 
+			null, "NEG_ESQ", "NEG_DIR", "ITA_ESQ", "ITA_DIR", "COR_ESQ", "COR_DIR", 
 			"STRING", "CHAR", "NUM_HEX", "DIG_HEX"
 		};
 	}
@@ -157,7 +157,7 @@ public class MensagensParser extends Parser {
 		public MensagemContext mensagem() {
 			return getRuleContext(MensagemContext.class,0);
 		}
-		public TerminalNode COR_CLOSE() { return getToken(MensagensParser.COR_CLOSE, 0); }
+		public TerminalNode COR_DIR() { return getToken(MensagensParser.COR_DIR, 0); }
 		public MensagemCorContext(MensagemContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -179,7 +179,7 @@ public class MensagensParser extends Parser {
 		public MensagemContext mensagem() {
 			return getRuleContext(MensagemContext.class,0);
 		}
-		public TerminalNode ITA_CLOSE() { return getToken(MensagensParser.ITA_CLOSE, 0); }
+		public TerminalNode ITA_DIR() { return getToken(MensagensParser.ITA_DIR, 0); }
 		public MensagemItalicoContext(MensagemContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -227,7 +227,7 @@ public class MensagensParser extends Parser {
 		public MensagemContext mensagem() {
 			return getRuleContext(MensagemContext.class,0);
 		}
-		public TerminalNode NEG_CLOSE() { return getToken(MensagensParser.NEG_CLOSE, 0); }
+		public TerminalNode NEG_DIR() { return getToken(MensagensParser.NEG_DIR, 0); }
 		public MensagemNegritoContext(MensagemContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -261,7 +261,7 @@ public class MensagensParser extends Parser {
 				setState(10);
 				mensagem();
 				setState(11);
-				match(NEG_CLOSE);
+				match(NEG_DIR);
 				}
 				break;
 			case ITA_ESQ:
@@ -273,7 +273,7 @@ public class MensagensParser extends Parser {
 				setState(14);
 				mensagem();
 				setState(15);
-				match(ITA_CLOSE);
+				match(ITA_DIR);
 				}
 				break;
 			case COR_ESQ:
@@ -285,7 +285,7 @@ public class MensagensParser extends Parser {
 				setState(18);
 				mensagem();
 				setState(19);
-				match(COR_CLOSE);
+				match(COR_DIR);
 				}
 				break;
 			case STRING:
