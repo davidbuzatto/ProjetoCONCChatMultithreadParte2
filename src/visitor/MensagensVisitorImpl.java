@@ -34,14 +34,14 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<String> {
     
     @Override
     public String visitInicio( MensagensParser.InicioContext ctx ) {
-        visit( ctx.getChild( 0 ) );
+        visit( ctx.mensagem() );
         return "";
     }
 
     @Override
     public String visitMensagemNegrito( MensagensParser.MensagemNegritoContext ctx ) {
         negritoAtivado = true;
-        visit( ctx.getChild( 1 ) );
+        visit( ctx.mensagem() );
         negritoAtivado = false;
         return "";
     }
@@ -49,7 +49,7 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<String> {
     @Override
     public String visitMensagemItalico( MensagensParser.MensagemItalicoContext ctx ) {
         italicoAtivado = true;
-        visit( ctx.getChild( 1 ) );
+        visit( ctx.mensagem() );
         italicoAtivado = false;
         return "";
     }
@@ -57,16 +57,14 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<String> {
     @Override
     public String visitMensagemCor( MensagensParser.MensagemCorContext ctx ) {
         corAtual = Utils.processarCor( ctx.COR_ESQ().toString() );
-        visit( ctx.getChild( 1 ) );
+        visit( ctx.mensagem() );
         corAtual = Color.BLACK;
         return "";
     }
 
     @Override
     public String visitPartes( MensagensParser.PartesContext ctx ) {
-        for ( int i = 0; i < ctx.getChildCount(); i++ ) {
-            visit( ctx.getChild( i ) );
-        }
+        visitChildren( ctx );
         return "";
     }
     

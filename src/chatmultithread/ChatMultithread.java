@@ -48,8 +48,8 @@ public class ChatMultithread {
         //String mensagem = "[i][i]teste[/i][/i]";
         //String mensagem = "[i][b]teste[/b][/i]";
         //String mensagem = "a[i]a[b]teste[/b]a[/i]a";
-        String mensagem = "[c #008888]teste[/c]";
-        //String mensagem = "aa [i] aa [b] aa [c #0099CC]teste[/c] aa [/b] aa [/i] aa";
+        //String mensagem = "[c #008888]teste[/c]";
+        String mensagem = "aa [i] aa [b] aa [c #0099CC]teste[/c] aa [/b] aa [/i] aa";
         
         
         MensagensLexer lexer = new MensagensLexer( CharStreams.fromString( mensagem ) );
