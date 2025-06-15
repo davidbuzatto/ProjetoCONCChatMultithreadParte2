@@ -2,8 +2,6 @@ package visitor;
 
 import java.awt.Color;
 import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import parser.MensagensBaseVisitor;
@@ -14,7 +12,7 @@ import utils.Utils;
  *
  * @author Prof. Dr. David Buzatto
  */
-public class MensagensVisitorImpl extends MensagensBaseVisitor<String> {
+public class MensagensVisitorImpl extends MensagensBaseVisitor<Void> {
 
     private JTextPane textPane;
     
@@ -33,46 +31,46 @@ public class MensagensVisitorImpl extends MensagensBaseVisitor<String> {
     }
     
     @Override
-    public String visitInicio( MensagensParser.InicioContext ctx ) {
+    public Void visitInicio( MensagensParser.InicioContext ctx ) {
         visit( ctx.mensagem() );
-        return "";
+        return null;
     }
 
     @Override
-    public String visitMensagemNegrito( MensagensParser.MensagemNegritoContext ctx ) {
+    public Void visitMensagemNegrito( MensagensParser.MensagemNegritoContext ctx ) {
         negritoAtivado = true;
         visit( ctx.mensagem() );
         negritoAtivado = false;
-        return "";
+        return null;
     }
     
     @Override
-    public String visitMensagemItalico( MensagensParser.MensagemItalicoContext ctx ) {
+    public Void visitMensagemItalico( MensagensParser.MensagemItalicoContext ctx ) {
         italicoAtivado = true;
         visit( ctx.mensagem() );
         italicoAtivado = false;
-        return "";
+        return null;
     }
 
     @Override
-    public String visitMensagemCor( MensagensParser.MensagemCorContext ctx ) {
+    public Void visitMensagemCor( MensagensParser.MensagemCorContext ctx ) {
         corAtual = Utils.processarCor( ctx.COR_ESQ().toString() );
         visit( ctx.mensagem() );
         corAtual = Color.BLACK;
-        return "";
+        return null;
     }
 
     @Override
-    public String visitPartes( MensagensParser.PartesContext ctx ) {
+    public Void visitPartes( MensagensParser.PartesContext ctx ) {
         visitChildren( ctx );
-        return "";
+        return null;
     }
     
     @Override
-    public String visitTexto( MensagensParser.TextoContext ctx ) {
+    public Void visitTexto( MensagensParser.TextoContext ctx ) {
         atualizarAttributeSet();
         Utils.adicionarTextoFormatado( ctx.getText(), textPane, attrSet );
-        return "";
+        return null;
     }
     
     private void atualizarAttributeSet() {

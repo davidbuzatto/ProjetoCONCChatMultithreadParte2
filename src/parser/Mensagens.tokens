@@ -8,6 +8,7 @@ STRING=7
 CHAR=8
 NUM_HEX=9
 DIG_HEX=10
+WS=11
 '[b]'=1
 '[/b]'=2
 '[i]'=3
